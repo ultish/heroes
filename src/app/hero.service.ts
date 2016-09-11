@@ -10,17 +10,15 @@ import { Hero } from './hero';
 export class HeroService {
 
   private heroesUrl = 'app/heroes';
-  private headers = new Headers({'Content-Type':'application.json'});
+  private headers = new Headers({ 'Content-Type': 'application.json' });
 
   constructor(private http: Http) { }
-
 
   getHeroes(): Promise<Hero[]> {
     return this.http.get(this.heroesUrl)
       .toPromise()
       .then(response => response.json().data as Hero[])
       .catch(this.handleError);
-    // return Promise.resolve(HEROES);
   }
 
   private handleError(error: any): Promise<any> {
@@ -31,15 +29,13 @@ export class HeroService {
   update(hero: Hero): Promise<Hero> {
     const url = `${this.heroesUrl}/${hero.id}`;
     return this.http
-      .put(url, JSON.stringify(hero), {headers: this.headers})
+      .put(url, JSON.stringify(hero), { headers: this.headers })
       .toPromise()
       .then(() => hero)
       .catch(this.handleError);
   }
 
   getHero(id: number): Promise<Hero> {
-    console.log("HEROES");
-
     return this.getHeroes().then(heroes =>
       heroes.find(hero => hero.id === id));
 
